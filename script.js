@@ -1,46 +1,32 @@
-//your JS code here. If required.
 const circles = document.querySelectorAll('.circle');
 const prevButton = document.getElementById('prev');
 const nextButton = document.getElementById('next');
-let currentActive = 1;
+
+let currentIndex = 0;
 
 nextButton.addEventListener('click', () => {
-  currentActive++;
+  if (currentIndex < circles.length - 1) {
+    circles[currentIndex].classList.remove('active');
+    currentIndex++;
+    circles[currentIndex].classList.add('active');
+    prevButton.removeAttribute('disabled');
 
-  if (currentActive > circles.length) {
-    currentActive = circles.length;
+    if (currentIndex === circles.length - 1) {
+      nextButton.setAttribute('disabled', 'true');
+    }
   }
-
-  update();
 });
 
 prevButton.addEventListener('click', () => {
-  currentActive--;
+  if (currentIndex > 0) {
+    circles[currentIndex].classList.remove('active');
+    currentIndex--;
+    circles[currentIndex].classList.add('active');
+    nextButton.removeAttribute('disabled');
 
-  if (currentActive < 1) {
-    currentActive = 1;
-  }
-
-  update();
-});
-
-function update() {
-  circles.forEach((circle, index) => {
-    if (index < currentActive) {
-      circle.classList.add('active');
-    } else {
-      circle.classList.remove('active');
+    if (currentIndex === 0) {
+      prevButton.setAttribute('disabled', 'true');
     }
-  });
-
-  if (currentActive === 1) {
-    prevButton.disabled = true;
-  } else if (currentActive === circles.length) {
-    nextButton.disabled = true;
-  } else {
-    prevButton.disabled = false;
-    nextButton.disabled = false;
   }
-}
-
+});
 
